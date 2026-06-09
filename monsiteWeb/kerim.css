@@ -1,0 +1,228 @@
+body {
+    font-family: 'Sofia', Arial, sans-serif; 
+    background-color: blanchedalmond;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header nav {
+    background-color: #000;
+    text-align: center;
+    padding: 10px 0;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-family: 'Sofia', sans-serif; 
+    font-size: 14px;
+    margin: 0 10px;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color:white;
+    border: 1px solid blanchedalmond;
+    border-radius: 8px;
+    font-family: 'Sofia', sans-serif; 
+}
+
+h1, h2 {
+    text-align: center;
+    color: #000;
+    font-family: 'Sofia', sans-serif; 
+    font-size: 18px;
+    margin: 15px 0;
+}
+
+button {
+    display: block;
+    background-color: #ff5a5f;
+    color:black;
+    border: none;
+    padding: 10px 15px;
+    font-family: 'Sofia', sans-serif;
+    font-size: 14px;
+    border-radius: 5px;
+    margin: 20px auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #d00;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-family: 'Sofia', sans-serif; 
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-family: 'Sofia', sans-serif; 
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+iframe {
+    border: none; 
+}
+
+.table-bordered {
+    border: 1px solid #ddd; 
+    border-collapse: collapse; 
+}
+
+.table-bordered th, .table-bordered td {
+    border: 1px solid #ddd;  
+    padding: 8px; 
+    text-align: left;
+    font-family: 'Sofia', sans-serif; 
+}
+
+img {
+    width: 200px; 
+    height: 200px; 
+    object-fit: cover; 
+    border-radius: 10px; 
+}
+
+/* latin */
+@font-face {
+    font-family: 'Sofia';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/sofia/v14/8QIHdirahM3j_su5uI0.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+details img {
+    display: none;
+}
+
+
+details[open] img {
+    display: block;
+}
+
+iframe {
+    display: block;
+    margin: 15px auto; 
+    width: 560px; 
+    height: 315px; 
+    border: none;
+}
+
+
+iframe::before {
+    content: attr(src); 
+}
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    .produit, .detail {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        margin: 20px auto;
+        max-width: 600px;
+    }
+    a.bouton {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #007BFF;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 10px;
+    }
+    a.bouton:hover {
+        background-color: #0056b3;
+    }
+    .retour {
+        margin: 20px;
+        display: block;
+    }
+
+
+    nav {
+        background-color: #007BFF;
+        padding: 10px 20px;
+    }
+    nav a {
+        color: white;
+        margin-right: 15px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    nav {
+        background-color: #007BFF;
+        padding: 10px 20px;
+    }
+    nav a {
+        color: white;
+        margin-right: 15px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    
+    .formulaire {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 600px;
+        margin: 20px auto;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .formulaire input, .formulaire textarea, .formulaire select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    .formulaire button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .formulaire button:hover {
+        background: #0056b3;
+    }
+        

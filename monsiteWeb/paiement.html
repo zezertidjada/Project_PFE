@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Paiement - IROBY</title>
+    <link rel="stylesheet" href="kerim.css">
+
+</head>
+<body>
+
+<nav>
+    <a href="index.php">Accueil</a>
+    <a href="produits.php">Produits</a>
+    <a href="panier.php">Panier</a>
+    <a href="paiement.html">Paiement</a>
+</nav>
+
+<h1>Informations de Paiement</h1>
+
+<div class="formulaire">
+    <form action="validation.html" method="post">
+        <label for="nom">Nom complet :</label><br>
+        <input type="text" id="nom" name="nom" required><br><br>
+
+        <label for="adresse">Adresse de livraison :</label><br>
+        <textarea id="adresse" name="adresse" required></textarea><br><br>
+
+        <label for="paiement">Méthode de paiement :</label><br>
+        <select id="paiement" name="paiement" required>
+            <option value="">-- Choisir --</option>
+            <option value="carte">Carte bancaire</option>
+            <option value="mobile">Mobile Money</option>
+            <option value="livraison">Paiement à la livraison</option>
+        </select><br><br>
+
+        <button type="submit">Valider la commande</button>
+    </form>
+</div>
+
+</body>
+</html>
