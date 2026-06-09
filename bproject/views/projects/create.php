@@ -8,7 +8,7 @@ $page_title = "Nouveau projet";
 $role_id    = $_SESSION['role_id'];
 
 if (!in_array($role_id, [1, 2])) {
-    header("Location: /bproject/dashboard.php");
+    header('Location: ' . bp_url('dashboard.php'));
     exit();
 }
 

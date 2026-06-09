@@ -4,13 +4,13 @@ require_once "../../config/database.php";
 require_once "../../config/csrf.php";
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /bproject/login.php");
+    header('Location: ' . bp_url('login.php'));
     exit();
 }
 
 // Admin seulement
 if ($_SESSION['role_id'] != 1) {
-    header("Location: /bproject/dashboard.php");
+    header('Location: ' . bp_url('dashboard.php'));
     exit();
 }
 

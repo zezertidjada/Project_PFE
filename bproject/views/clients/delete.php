@@ -5,12 +5,12 @@ require_once "../../config/csrf.php";
 
 // Sécurité : connexion + Admin seulement
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /bproject/login.php");
+    header('Location: ' . bp_url('login.php'));
     exit();
 }
 
 if ($_SESSION['role_id'] != 1) {
-    header("Location: /bproject/dashboard.php");
+    header('Location: ' . bp_url('dashboard.php'));
     exit();
 }
 

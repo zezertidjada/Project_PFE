@@ -10,7 +10,7 @@ require_once "../../config/database.php";
 
 // Sécurité : Admin seulement
 if ($_SESSION['role_id'] != 1) {
-    header("Location: /bproject/dashboard.php");
+    header('Location: ' . bp_url('dashboard.php'));
     exit();
 }
 

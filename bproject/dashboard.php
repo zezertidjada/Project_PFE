@@ -1,12 +1,13 @@
 <?php
 session_start();
+require_once __DIR__ . '/config/app.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /bproject/login.php");
+    header('Location: ' . bp_url('login.php'));
     exit();
 }
 
-require_once "config/database.php";
+require_once __DIR__ . '/config/database.php';
 
 $page_title = "Dashboard";
 $role_id    = (int)$_SESSION['role_id']; // cast une fois, utilisé partout
@@ -58,7 +59,7 @@ $recent_tasks = mysqli_query($conn,
       ?>
     </span>
     <?php if ($role_id <= 2): ?>
-    <a href="/bproject/views/projects/create.php" class="btn-bp-primary">
+    <a href="<?php echo bp_url('views/projects/create.php'); ?>" class="btn-bp-primary">
       <i class="bi bi-plus-lg"></i> Nouveau projet
     </a>
     <?php endif; ?>
@@ -108,7 +109,7 @@ $recent_tasks = mysqli_query($conn,
       <div class="bp-card mb-3">
         <div class="d-flex align-items-center justify-content-between mb-3">
           <div class="bp-card-title mb-0">Projets récents</div>
-          <a href="/bproject/views/projects/index.php" class="btn-bp-ghost"
+          <a href="<?php echo bp_url('views/projects/index.php'); ?>" class="btn-bp-ghost"
              style="font-size:12px;padding:5px 12px;">
             Voir tout <i class="bi bi-arrow-right"></i>
           </a>
@@ -165,7 +166,7 @@ $recent_tasks = mysqli_query($conn,
       <div class="bp-card">
         <div class="d-flex align-items-center justify-content-between mb-3">
           <div class="bp-card-title mb-0">Dernières tâches</div>
-          <a href="/bproject/views/tasks/index.php" class="btn-bp-ghost"
+          <a href="<?php echo bp_url('views/tasks/index.php'); ?>" class="btn-bp-ghost"
              style="font-size:12px;padding:5px 12px;">
             Voir tout <i class="bi bi-arrow-right"></i>
           </a>
@@ -250,7 +251,7 @@ $recent_tasks = mysqli_query($conn,
     <svg viewBox="0 0 120 120" width="130" height="130" style="flex-shrink:0;">
       <!-- Fond gris -->
       <circle cx="60" cy="60" r="45"
-              fill="none" stroke="#f0f0f5" stroke-width="14"/>
+              fill="none" class="bp-donut-bg" stroke-width="14"/>
       <!-- À faire -->
       <circle cx="60" cy="60" r="45"
               fill="none" stroke="#94a3b8" stroke-width="14"
@@ -275,9 +276,9 @@ $recent_tasks = mysqli_query($conn,
       <!-- Total au centre -->
       <text x="60" y="55" text-anchor="middle"
             font-size="22" font-weight="700"
-            fill="#111827"><?php echo $tasks_count; ?></text>
+            class="bp-donut-text"><?php echo $tasks_count; ?></text>
       <text x="60" y="70" text-anchor="middle"
-            font-size="9" fill="#9ca3af">tâches</text>
+            font-size="9" class="bp-donut-sub">tâches</text>
     </svg>
   </div>
 
@@ -321,28 +322,28 @@ $recent_tasks = mysqli_query($conn,
         <div class="d-flex flex-column gap-2">
 
           <?php if ($role_id === 1): ?>
-          <a href="/bproject/views/clients/create.php" class="btn-bp-ghost w-100"
+          <a href="<?php echo bp_url('views/clients/create.php'); ?>" class="btn-bp-ghost w-100"
              style="justify-content:flex-start;">
             <i class="bi bi-person-plus"></i> Ajouter un client
           </a>
           <?php endif; ?>
 
           <?php if ($role_id <= 2): ?>
-          <a href="/bproject/views/projects/create.php" class="btn-bp-ghost w-100"
+          <a href="<?php echo bp_url('views/projects/create.php'); ?>" class="btn-bp-ghost w-100"
              style="justify-content:flex-start;">
             <i class="bi bi-folder-plus"></i> Nouveau projet
           </a>
           <?php endif; ?>
 
           <?php if ($role_id <= 3): ?>
-          <a href="/bproject/views/tasks/create.php" class="btn-bp-ghost w-100"
+          <a href="<?php echo bp_url('views/tasks/create.php'); ?>" class="btn-bp-ghost w-100"
              style="justify-content:flex-start;">
             <i class="bi bi-check2-square"></i> Créer une tâche
           </a>
           <?php endif; ?>
 
           <?php if ($role_id === 1): ?>
-          <a href="/bproject/views/users/create.php" class="btn-bp-ghost w-100"
+          <a href="<?php echo bp_url('views/users/create.php'); ?>" class="btn-bp-ghost w-100"
              style="justify-content:flex-start;">
             <i class="bi bi-person-badge"></i> Ajouter un utilisateur
           </a>

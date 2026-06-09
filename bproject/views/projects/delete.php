@@ -4,12 +4,12 @@ require_once "../../config/database.php";
 require_once "../../config/csrf.php";
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /bproject/login.php");
+    header('Location: ' . bp_url('login.php'));
     exit();
 }
 
 if (!in_array($_SESSION['role_id'], [1, 2])) {
-    header("Location: /bproject/dashboard.php");
+    header('Location: ' . bp_url('dashboard.php'));
     exit();
 }
 

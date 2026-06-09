@@ -4,7 +4,7 @@ require_once "config/database.php";
 
 // Déjà connecté → dashboard
 if (isset($_SESSION['user_id'])) {
-    header("Location: dashboard.php");
+    header('Location: ' . bp_url('dashboard.php'));
     exit();
 }
 
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['role_id']   = $user['role_id'];
 
-                header("Location: dashboard.php");
+                header('Location: ' . bp_url('dashboard.php'));
                 exit();
             } else {
                 $error = "Mot de passe incorrect.";
@@ -54,11 +54,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Connexion — B-Project Manager</title>
+  <script>
+    (function(){
+      if (localStorage.getItem('bp_theme') === 'dark')
+        document.documentElement.setAttribute('data-theme','dark');
+    })();
+  </script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="/bproject/assets/css/bproject.css" rel="stylesheet">
+  <link href="<?php echo bp_asset('css/bproject.css?v=5'); ?>" rel="stylesheet">
 </head>
 <body>
+
+<div class="bp-theme-fab">
+  <i class="bi bi-sun-fill"></i>
+  <button class="bp-theme-toggle" data-theme-toggle title="Changer le thème" type="button"></button>
+  <i class="bi bi-moon-fill"></i>
+  <span data-theme-label>Clair</span>
+</div>
 
 <div class="bp-login-wrap">
   <div class="bp-login-card">
@@ -158,6 +171,7 @@ function togglePassword() {
   }
 }
 </script>
+<script src="<?php echo bp_asset('js/theme.js'); ?>"></script>
 
 </body>
 </html>

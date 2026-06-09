@@ -18,10 +18,7 @@ $dot_colors = [
     'Terminé'  => '#16a34a',
     'Bloquée'  => '#ef4444',
 ];
-$border_colors = [
-    'En cours' => '#6366f1',
-    'Bloquée'  => '#ef4444',
-];
+$border_colors = ['En cours' => '#6366f1', 'Bloquée' => '#ef4444'];
 
 $tasks_by_status = [];
 foreach ($statuts as $s) {
@@ -112,15 +109,13 @@ $priority_badge = ['Haute' => 'badge-high', 'Moyenne' => 'badge-medium', 'Basse'
             <span class="bp-badge <?php echo $p_badge; ?>">
               <?php echo htmlspecialchars($task['priority'] ?? 'Moyenne'); ?>
             </span>
-            <span style="font-size:10px;color:var(--text-3);overflow:hidden;
-                         text-overflow:ellipsis;white-space:nowrap;">
+            <span style="font-size:10px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
               <?php echo htmlspecialchars($task['project_title'] ?? '—'); ?>
             </span>
           </div>
 
           <?php if ($s === 'Bloquée'): ?>
-          <div class="bp-blocked-msg"
-               style="font-size:11px;color:#ef4444;margin-bottom:6px;">
+          <div class="bp-blocked-msg" style="font-size:11px;color:#ef4444;margin-bottom:6px;">
             <i class="bi bi-exclamation-triangle-fill"></i> Tâche bloquée
           </div>
           <?php endif; ?>
@@ -179,25 +174,19 @@ $priority_badge = ['Haute' => 'badge-high', 'Moyenne' => 'badge-medium', 'Basse'
 
 </div>
 
+<!-- DRAG & DROP JS -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
   const CSRF = '<?php echo generateCSRFToken(); ?>';
   const ROLE = <?php echo $role_id; ?>;
 
   const columns = document.querySelectorAll('.bp-kboard');
   const cards   = document.querySelectorAll('.bp-ktask');
 
-  // Activer drag (pas pour les stagiaires role 4)
-  if (ROLE < 4) {
-    cards.forEach(c => c.setAttribute('draggable', 'true'));
-  }
+  if (ROLE < 4) cards.forEach(c => c.setAttribute('draggable', 'true'));
 
-  let draggedCard  = null;
-  let sourceColumn = null;
-  let placeholder  = null;
+  let draggedCard = null, sourceColumn = null, placeholder = null;
 
-  // ── DRAGSTART ─────────────────────────────────────────
   document.addEventListener('dragstart', function (e) {
     if (!e.target.classList.contains('bp-ktask')) return;
     draggedCard  = e.target;
@@ -209,38 +198,31 @@ document.addEventListener('DOMContentLoaded', function () {
     placeholder.className = 'bp-ktask-placeholder';
   });
 
-  // ── DRAGEND ───────────────────────────────────────────
   document.addEventListener('dragend', function () {
     if (!draggedCard) return;
     draggedCard.classList.remove('dragging');
     placeholder && placeholder.remove();
     placeholder = null;
     columns.forEach(c => c.classList.remove('drag-over'));
-    draggedCard = null;
-    sourceColumn = null;
+    draggedCard = null; sourceColumn = null;
   });
 
-  // ── ÉVÉNEMENTS COLONNES ───────────────────────────────
   columns.forEach(col => {
-
     col.addEventListener('dragover', function (e) {
       e.preventDefault();
       if (!draggedCard) return;
       e.dataTransfer.dropEffect = 'move';
       const after = getAfterElement(this, e.clientY);
-      after ? this.insertBefore(placeholder, after)
-            : this.appendChild(placeholder);
+      after ? this.insertBefore(placeholder, after) : this.appendChild(placeholder);
     });
 
     col.addEventListener('dragenter', function (e) {
       e.preventDefault();
-      if (draggedCard && this !== sourceColumn)
-        this.classList.add('drag-over');
+      if (draggedCard && this !== sourceColumn) this.classList.add('drag-over');
     });
 
     col.addEventListener('dragleave', function (e) {
-      if (!this.contains(e.relatedTarget))
-        this.classList.remove('drag-over');
+      if (!this.contains(e.relatedTarget)) this.classList.remove('drag-over');
     });
 
     col.addEventListener('drop', function (e) {
@@ -248,15 +230,13 @@ document.addEventListener('DOMContentLoaded', function () {
       this.classList.remove('drag-over');
       if (!draggedCard || this === sourceColumn) return;
 
-      const newStatus  = this.dataset.status;
-      const taskId     = draggedCard.dataset.taskId;
-      const prevCol    = sourceColumn;
+      const newStatus = this.dataset.status;
+      const taskId    = draggedCard.dataset.taskId;
+      const prevCol   = sourceColumn;
 
-      // 1. Mise à jour DOM
       placeholder && placeholder.remove();
       const after = getAfterElement(this, e.clientY);
-      after ? this.insertBefore(draggedCard, after)
-            : this.appendChild(draggedCard);
+      after ? this.insertBefore(draggedCard, after) : this.appendChild(draggedCard);
 
       updateCount(prevCol, -1);
       updateCount(this,    +1);
@@ -265,30 +245,19 @@ document.addEventListener('DOMContentLoaded', function () {
       updateCardVisual(draggedCard, newStatus);
 
       draggedCard.classList.add('card-drop');
-      draggedCard.addEventListener('animationend',
-        () => draggedCard.classList.remove('card-drop'),
-        { once: true }
-      );
+      draggedCard.addEventListener('animationend', () => draggedCard.classList.remove('card-drop'), { once: true });
 
-      // 2. AJAX
       fetch('update_status.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          task_id: parseInt(taskId),
-          status:  newStatus,
-          csrf_token: CSRF
-        })
+        body: JSON.stringify({ task_id: parseInt(taskId), status: newStatus, csrf_token: CSRF })
       })
       .then(r => r.json())
       .then(res => {
         if (!res.success) {
-          // Annuler le déplacement
           prevCol.appendChild(draggedCard);
-          updateCount(this,   -1);
-          updateCount(prevCol, +1);
-          checkEmpty(this);
-          checkEmpty(prevCol);
+          updateCount(this, -1); updateCount(prevCol, +1);
+          checkEmpty(this); checkEmpty(prevCol);
           updateCardVisual(draggedCard, prevCol.dataset.status);
           toast('Erreur : ' + (res.message || 'inconnue'), 'error');
         } else {
@@ -299,15 +268,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ── UTILITAIRES ───────────────────────────────────────
-
   function getAfterElement(container, mouseY) {
     const siblings = [...container.querySelectorAll('.bp-ktask:not(.dragging)')];
     return siblings.reduce((closest, el) => {
       const { top, height } = el.getBoundingClientRect();
       const offset = mouseY - top - height / 2;
-      if (offset < 0 && offset > closest.offset)
-        return { offset, element: el };
+      if (offset < 0 && offset > closest.offset) return { offset, element: el };
       return closest;
     }, { offset: Number.NEGATIVE_INFINITY }).element;
   }
@@ -323,20 +289,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const emptyEl  = col.querySelector('.bp-ktask-empty');
     if (!hasCards && !emptyEl) {
       const el = document.createElement('div');
-      el.className = 'bp-ktask-empty';
-      el.textContent = 'Aucune tâche';
+      el.className = 'bp-ktask-empty'; el.textContent = 'Aucune tâche';
       col.appendChild(el);
-    } else if (hasCards && emptyEl) {
-      emptyEl.remove();
-    }
+    } else if (hasCards && emptyEl) emptyEl.remove();
   }
 
   function updateCardVisual(card, status) {
     const borders = { 'En cours': '#6366f1', 'Bloquée': '#ef4444' };
-    card.style.borderLeft = borders[status]
-      ? `3px solid ${borders[status]}`
-      : '3px solid transparent';
-
+    card.style.borderLeft = borders[status] ? `3px solid ${borders[status]}` : '3px solid transparent';
     let blockedEl = card.querySelector('.bp-blocked-msg');
     if (status === 'Bloquée') {
       if (!blockedEl) {
@@ -347,9 +307,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const badgeRow = card.querySelector('.d-flex.align-items-center.gap-2.mb-2');
         badgeRow && badgeRow.insertAdjacentElement('afterend', blockedEl);
       }
-    } else {
-      blockedEl && blockedEl.remove();
-    }
+    } else { blockedEl && blockedEl.remove(); }
   }
 
   function toast(msg, type) {
@@ -358,12 +316,8 @@ document.addEventListener('DOMContentLoaded', function () {
     el.textContent = msg;
     document.body.appendChild(el);
     requestAnimationFrame(() => el.classList.add('show'));
-    setTimeout(() => {
-      el.classList.remove('show');
-      setTimeout(() => el.remove(), 300);
-    }, 2500);
+    setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 2500);
   }
-
 });
 </script>
 
