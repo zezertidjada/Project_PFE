@@ -12,7 +12,7 @@ function bp_active_file($file) {
 }
 
 $user_name   = $_SESSION['user_name'] ?? 'Utilisateur';
-$role_id     = (int)($_SESSION['role_id'] ?? 4); // UNE seule variable, partout
+$role_id     = (int)($_SESSION['role_id'] ?? 4);
 
 $words    = array_values(array_filter(explode(' ', $user_name)));
 $initials = strtoupper(($words[0][0] ?? '') . ($words[1][0] ?? ''));
@@ -26,6 +26,7 @@ $av_class   = $av_colors[$role_id]   ?? 'av-gray';
 
 <aside class="bp-sidebar">
 
+  <!-- Logo -->
   <div class="bp-sidebar-logo">
     <div class="bp-logo-icon">BP</div>
     <div>
@@ -34,6 +35,7 @@ $av_class   = $av_colors[$role_id]   ?? 'av-gray';
     </div>
   </div>
 
+  <!-- Navigation -->
   <div class="bp-nav-section">
     <span class="bp-nav-label">Menu</span>
 
@@ -92,6 +94,15 @@ $av_class   = $av_colors[$role_id]   ?? 'av-gray';
 
   </div>
 
+  <!-- ── Toggle Dark / Light ── -->
+  <div class="bp-theme-row">
+    <i class="bi bi-sun-fill"  style="font-size:13px;color:var(--text-3);"></i>
+    <button class="bp-theme-toggle" id="themeToggle" title="Changer le thème"></button>
+    <i class="bi bi-moon-fill" style="font-size:13px;color:var(--text-3);"></i>
+    <span style="font-size:11px;color:var(--text-3);margin-left:2px;" id="themeLabel">Clair</span>
+  </div>
+
+  <!-- Utilisateur connecté -->
   <div class="bp-sidebar-user">
     <div class="bp-avatar bp-av-md <?php echo $av_class; ?>">
       <?php echo $initials; ?>
@@ -109,3 +120,31 @@ $av_class   = $av_colors[$role_id]   ?? 'av-gray';
 </aside>
 
 <div class="bp-main">
+
+<script>
+(function () {
+  const toggle = document.getElementById('themeToggle');
+  const label  = document.getElementById('themeLabel');
+  if (!toggle) return;
+
+  function apply(theme) {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (label) label.textContent = 'Sombre';
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      if (label) label.textContent = 'Clair';
+    }
+    localStorage.setItem('bp_theme', theme);
+  }
+
+  // Appliquer l'état actuel au label au chargement
+  const saved = localStorage.getItem('bp_theme') || 'light';
+  apply(saved);
+
+  toggle.addEventListener('click', function () {
+    const current = document.documentElement.getAttribute('data-theme');
+    apply(current === 'dark' ? 'light' : 'dark');
+  });
+})();
+</script>
